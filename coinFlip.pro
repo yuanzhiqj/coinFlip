@@ -27,12 +27,18 @@ SOURCES += \
         main.cpp \
         mainscence.cpp \
     mypushbutton.cpp \
-    chooselevelscene.cpp
+    chooselevelscene.cpp \
+    playscence.cpp \
+    mycoin.cpp \
+    dataconfig.cpp
 
 HEADERS += \
         mainscence.h \
     mypushbutton.h \
-    chooselevelscene.h
+    chooselevelscene.h \
+    playscence.h \
+    mycoin.h \
+    dataconfig.h
 
 FORMS += \
         mainscence.ui

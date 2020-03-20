@@ -46,7 +46,18 @@ ChooseLevelScene::ChooseLevelScene(QWidget *parent) : QMainWindow(parent)
         menuBtn->move(25+i%4*70,130+i/4*70);
         //监听点击事件
         connect(menuBtn,&MyPushButton::clicked,[=](){
-            qDebug()<<i+1;
+            //qDebug()<<i+1;
+            //进入到游戏场景
+            this->hide(); //选关场景隐藏
+            play = new playScence(i+1);
+            play->show();
+
+            //监听到返回信号
+            connect(play,&playScence::chooseScenceBack,[=](){
+                delete play;
+                play=NULL;
+                this->show();
+            });
         });
 
         QLabel* label = new QLabel;
