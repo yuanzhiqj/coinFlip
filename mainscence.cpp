@@ -3,6 +3,7 @@
 #include<QPainter>
 #include<QDebug>
 #include<QTimer>
+#include<QSound>
 #include"mypushbutton.h"
 MainScence::MainScence(QWidget *parent) :
     QMainWindow(parent),
@@ -22,6 +23,9 @@ MainScence::MainScence(QWidget *parent) :
         this->close();
     });
 
+    //开始按钮音效
+    QSound* startSound = new QSound(":/resource/TapButtonSound.wav",this);
+    QSound* backSound = new QSound(":/resource/BackButtonSound.wav",this);
     //开始按钮
     MyPushButton* startBtn = new MyPushButton(":/resource/MenuSceneStartButton.png");
     startBtn->setParent(this);
@@ -30,12 +34,16 @@ MainScence::MainScence(QWidget *parent) :
     chooseScence = new ChooseLevelScene;
     connect(startBtn,&QPushButton::clicked,[=](){
         //qDebug()<<"click";
+        //播放音效
+        startSound->play();
         //弹起特效
         startBtn->zoom1();
         startBtn->zoom2();
 
         //延时进入关卡选择场景并将自身隐藏
         QTimer::singleShot(500,this,[=](){
+            //设置chooseScene场景的位置
+            chooseScence->setGeometry(this->geometry());
             this->hide();
             chooseScence->show();
         });
@@ -43,6 +51,8 @@ MainScence::MainScence(QWidget *parent) :
 
     //监听到选择关卡的返回
     connect(chooseScence,&ChooseLevelScene::chooseScenceBack,[=](){
+        this->setGeometry(chooseScence->geometry());
+        backSound->play();
         chooseScence->hide();
         this->show();
     });

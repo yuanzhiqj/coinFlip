@@ -2,7 +2,7 @@
 #define PLAYSCENCE_H
 
 #include <QMainWindow>
-
+#include "mycoin.h"
 class playScence : public QMainWindow
 {
     Q_OBJECT
@@ -14,6 +14,10 @@ public:
     void paintEvent(QPaintEvent*);
 
     int gameArray[4][4];    //二维数组，维护每个关卡的具体数据
+    myCoin* coinBtn[4][4];
+
+    //是否胜利
+    bool isWin;
 signals:
     //需要返回
     void chooseScenceBack();

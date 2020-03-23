@@ -3,6 +3,7 @@
 #include<QPainter>
 #include<QDebug>
 #include<QTimer>
+#include<QSound>
 #include"mypushbutton.h"
 #include<QLabel>
 ChooseLevelScene::ChooseLevelScene(QWidget *parent) : QMainWindow(parent)
@@ -23,6 +24,10 @@ ChooseLevelScene::ChooseLevelScene(QWidget *parent) : QMainWindow(parent)
     connect(quitAction,&QAction::triggered,[=](){
         this->close();
     });
+
+    //音效
+    QSound* chooseSound = new QSound(":/resource/TapButtonSound.wav",this);
+    QSound* backSound = new QSound(":/resource/BackButtonSound.wav",this);
 
     //返回按钮
     MyPushButton*backBtn = new MyPushButton(":/resource/BackButton.png",":/resource/BackButtonSelected.png");
@@ -47,13 +52,19 @@ ChooseLevelScene::ChooseLevelScene(QWidget *parent) : QMainWindow(parent)
         //监听点击事件
         connect(menuBtn,&MyPushButton::clicked,[=](){
             //qDebug()<<i+1;
+            //播放音效
+            chooseSound->play();
             //进入到游戏场景
+
             this->hide(); //选关场景隐藏
             play = new playScence(i+1);
+            play->setGeometry(this->geometry());
             play->show();
 
             //监听到返回信号
             connect(play,&playScence::chooseScenceBack,[=](){
+                this->setGeometry(play->geometry());
+                backSound->play();
                 delete play;
                 play=NULL;
                 this->show();
